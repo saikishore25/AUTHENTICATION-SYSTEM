@@ -2,13 +2,14 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import axios from "axios";
 
-const API_URL = import.meta.env.MODE === "development" ? "http://localhost:3001/api/auth" : "/api/auth";
+
 
 axios.defaults.withCredentials = true;
 
 export const useAuthStore = create(
   persist(
     (set) => ({
+      API_URL: import.meta.env.VITE_API_URL,
       user: null,
       isAuthenticated: false,
       error: null,
