@@ -30,6 +30,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/favicon.ico', (req, res) => res.status(204));
 app.get("/", (req, res)=>{
 
     res.send("API IS WORKING");
