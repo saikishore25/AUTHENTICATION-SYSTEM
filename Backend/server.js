@@ -32,7 +32,7 @@ app.use(passport.session());
 
 app.get("/", (req, res)=>{
 
-    res.send("Hello World");
+    res.send("API IS WORKING");
 
 })
 
@@ -44,4 +44,4 @@ app.listen(PORT, ()=>{
 
 })
 
-export default app;
+// export default app;
