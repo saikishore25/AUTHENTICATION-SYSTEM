@@ -2,7 +2,8 @@ import express from "express"
 import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import generateVerificationCode from "../utils/generateverificationCode.js";
+import path from 'path';
+import generateVerificationCode from path.resolve(__dirname, '../utils/generateVerificationCode.js');
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
 import { sendVerificationEmail, sendWelcomeEmail,sendPasswordResetEmail , sendResetSuccessEmail } from "../nodemailer/nodemailerConfig.js";
 
