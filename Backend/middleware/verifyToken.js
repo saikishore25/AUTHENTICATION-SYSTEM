@@ -5,16 +5,21 @@ import userModel from "../models/userModel.js"; // Import User model
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const verifyToken = async (req, res, next) => {
-    try {
+    
+    try{
+
         const token = req.cookies.authToken || req.headers.authorization?.split(" ")[1];
 
-        if (!token) {
+        if(!token){
+
+            console.log("Unauthenticated No Token Provided");
             return res.status(401).json({ success: false, message: "Unauthenticated - No token provided" });
         }
 
         console.log("Verifying Token:", token);
 
-        try {
+        try{
+
             // Attempt to verify as a Google OAuth token
             const googleUser = await client.verifyIdToken({
                 idToken: token,
@@ -27,7 +32,10 @@ export const verifyToken = async (req, res, next) => {
 
             console.log("Google User Verified:", req.userId);
             return next();
-        } catch (googleError) {
+        } 
+        
+        catch(googleError){
+
             console.log("Not a Google token, trying JWT...");
         }
 
@@ -38,11 +46,19 @@ export const verifyToken = async (req, res, next) => {
 
         console.log("JWT User Verified:", req.userId);
         next();
-    } catch (error) {
+    } 
+    
+    catch(error){
+
         console.log("Error in verifyToken:", error);
-        if (error.name === "TokenExpiredError") {
+        if(error.name === "TokenExpiredError"){
+
+            console.log("Unauthorized Token expired")
             return res.status(401).json({ success: false, message: "Unauthorized - Token expired" });
         }
+
+        console.log("Internal Sever Error");
+        
         return res.status(500).json({ success: false, message: "Server error" });
     }
 };

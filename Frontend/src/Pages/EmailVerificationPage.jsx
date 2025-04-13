@@ -9,14 +9,7 @@ const EmailVerificationPage = () => {
     const inputRefs = useRef(Array(6).fill(null)); // Ensure proper ref array
     const navigate = useNavigate();
     const { error, isLoading, verifyEmail, user } = useAuthStore();
-    // console.log(user)
-	// console.log(error, isLoading)
-	// console.log("Email Verify")
-
-
-    // useEffect(() => {
-    //     console.log("EmailVerificationPage is rendering!");
-    // }, []);
+    
 
     const handleChange = (index, value) => {
         const newCode = [...code];

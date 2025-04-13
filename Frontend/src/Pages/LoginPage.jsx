@@ -6,10 +6,12 @@ import Input from "../components/Input";
 import { useAuthStore } from "../store/authStore";
 
 const LoginPage = () => {
+
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const {login, isLoading, error, isForgotPasswordClicked, setIsForgotPasswordClicked} = useAuthStore();
+	const {login, isLoading, error, isForgotPasswordClicked, setIsForgotPasswordClicked, API_URL} = useAuthStore();
 	console.log(isForgotPasswordClicked)
 	const navigate = useNavigate();
 
@@ -24,8 +26,9 @@ const LoginPage = () => {
 		}
 		catch(error){
 
-			console.log(error)
+			console.log("Error Logging In", error);
 		}
+
 	};
 
 	const handleForgotPassword = async()=>{
@@ -36,9 +39,9 @@ const LoginPage = () => {
 	}
 	const handleGoogleLogin = () => {
     
-		window.open("http://localhost:3001/api/auth/google", "_self");
+		window.open(`${API_URL}/google`, "_self");
 	
-	  };
+	};
 
 	return (
 		<motion.div
@@ -48,7 +51,8 @@ const LoginPage = () => {
 			className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
 		>
 			<div className='p-8 flex flex-col items-center justify-center w-full'>
-				<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r w-full from-green-400 to-emerald-500 text-transparent bg-clip-text'>
+				
+                <h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r w-full from-green-400 to-emerald-500 text-transparent bg-clip-text'>
 					Welcome Back
 				</h2>
 
@@ -66,6 +70,7 @@ const LoginPage = () => {
 						type='password'
 						placeholder='Password'
 						value={password}
+                        autoComplete="true"
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 
@@ -86,25 +91,27 @@ const LoginPage = () => {
 					>
                         {isLoading ? <Loader className='w-6 h-6 animate-spin  mx-auto' /> : "Login"}
 
-						</motion.button>
+					</motion.button>
 
-						<div className='text-gray-400 flex flex-col  items-center justify-center mt-5'>
+                    <div className='text-gray-400 flex flex-col  items-center justify-center mt-5'>
 
-							<p>You can Login With</p>
+                        <p>You can Login With</p>
 
-							<div className='flex items-center justify-center'>
+                        <div className='flex items-center justify-center'>
 
-							<button
-								onClick={handleGoogleLogin}
-								className="mt-2 flex items-center justify-center bg-white text-gray-900 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition duration-200"
-							>
-								
-								Google
-							</button>
+                            <button
+                                onClick={handleGoogleLogin}
+                                className="mt-2 flex items-center justify-center bg-white text-gray-900 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition duration-200"
+                            >
+                                
+                                Google
+                            </button>
 
-							</div>
-						</div>
-					</form>
+                        </div>
+
+                    </div>
+
+				</form>
 				
 			</div>
 

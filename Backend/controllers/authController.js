@@ -15,7 +15,8 @@ export const signup = async(req, res)=>{
 
         if(!email || !password || !name){
 
-            throw new Error("All Fields are Required");
+            console.log("All Fields are Required");
+            return res.json({success:false, message:"All Fields are Required"});      
 
         }
         
@@ -24,6 +25,7 @@ export const signup = async(req, res)=>{
         
         if(userAlreadyExists){
 
+            console.log("User Already Exists");
             return res.status(400).json({success:false, message: "User Already Exists"});
 
         }
@@ -47,6 +49,7 @@ export const signup = async(req, res)=>{
 
         await sendVerificationEmail(user.email, verificationCode);
         
+        console.log("User Created Sucessfully");
         res.status(201).json({
 
             success: true,
@@ -61,8 +64,8 @@ export const signup = async(req, res)=>{
 
     catch(error){
 
-
-        res.status(400).json({success:false, message: error.message});
+        console.log("Failed to Create an User");
+        return res.status(400).json({success:false, message: error.message});
 
     }
     
@@ -84,6 +87,7 @@ export const verifyEmail = async(req, res)=>{
 
         if(!user){
 
+            console.log("Invalid or Expired Verification Code")
             return res.status(400).json({success: false, message: "Invalid or Expired Verification Code"});
 
         }
@@ -95,6 +99,7 @@ export const verifyEmail = async(req, res)=>{
 
         await sendWelcomeEmail(user.email, user.name);
 
+        console.log("Email Verified Sucessfully");
         res.status(200).json({
 			success: true,
 			message: "Email verified successfully",
@@ -121,13 +126,15 @@ export const verifyEmail = async(req, res)=>{
 export const login = async(req, res)=>{
 
     const {email, password} = req.body;
-
+    console.log(email, password);
+    
     try{
 
         const user = await userModel.findOne({email});
 
         if(!user){
 
+            console.log("Invalid credentials")
             return res.status(400).json({ success: false, message: "Invalid credentials" });
 
         }
@@ -136,7 +143,8 @@ export const login = async(req, res)=>{
 
         if(!isPasswordValid){
 
-            return res.status(400).json({ success: false, message: "Invalid credentials" });
+            console.log("Enter Wrong Password while logging in");
+            return res.status(400).json({ success: false, message: "Wrong Password" });
 
         }
 
@@ -148,6 +156,7 @@ export const login = async(req, res)=>{
 
         await user.save();
 
+        console.log("User Logged in Successfully");
         return res.status(200).json({
 
             success: true,
@@ -183,6 +192,7 @@ export const forgotPassword = async(req, res) => {
 
         if(!user){
             
+            console.log("User Not Found");
             return res.status(400).json({ success: false, message: "User not found" });
         }
 
@@ -200,7 +210,10 @@ export const forgotPassword = async(req, res) => {
 
         res.status(200).json({ success: true, message: "Password reset link sent to your email" });
 
-    } catch (error) {
+    } 
+    
+    catch(error){
+
         console.log("Error in forgotPassword ", error);
         res.status(400).json({ success: false, message: error.message });
     }
@@ -237,14 +250,14 @@ export const resetPassword = async (req, res)=>{
 
 		await sendResetSuccessEmail(user.email);
 
-		res.status(200).json({ success: true, message: "Password reset successful" });
+		return res.status(200).json({ success: true, message: "Password reset successful" });
 
     }
 
     catch(error){
 
         console.log("Error in resetPassword ", error);
-		res.status(400).json({ success: false, message: error.message });
+		return res.status(400).json({ success: false, message: error.message });
 
     }
 
@@ -253,6 +266,7 @@ export const resetPassword = async (req, res)=>{
 export const logout = async (req, res) => {
     
     try{
+
         res.clearCookie("authToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -270,8 +284,12 @@ export const logout = async (req, res) => {
 };
 
 export const checkAuth = async (req, res) => {
-    try {
-        if (!req.userId) {
+    
+    try{
+
+        if(!req.userId){
+
+            console.log("Unauthorized Access Not Allowed")
             return res.status(401).json({ success: false, message: "Unauthorized access" });
         }
 
@@ -282,15 +300,20 @@ export const checkAuth = async (req, res) => {
             $or: [{ _id: req.isGoogleUser ? null : req.userId }, { googleId: req.isGoogleUser ? req.userId : null }]
         }).select("-password");
 
-        if (!user) {
+        if(!user){
+
+            console.log("User Not Found")
             return res.status(400).json({ success: false, message: "User not found" });
         }
 
         console.log("User found:", user);
-        res.status(200).json({ success: true, user });
-    } catch (error) {
+        return res.status(200).json({ success: true, user });
+    } 
+    
+    catch(error){
+
         console.error("Error in checkAuth:", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
 

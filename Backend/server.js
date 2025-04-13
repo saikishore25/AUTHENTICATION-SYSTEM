@@ -38,10 +38,10 @@ app.get("/", (req, res)=>{
 
 app.use("/api/auth", authRoutes);
 
-// app.listen(PORT, ()=>{
+app.listen(PORT, ()=>{
 
-//     console.log(`Server Started on Port: ${PORT}`);
+    console.log(`Server Started on Port: ${PORT}`);
 
-// })
+})
 
 export default app;

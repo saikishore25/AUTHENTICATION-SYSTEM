@@ -11,32 +11,13 @@ import ForgotPasswordPage from './Pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './Pages/ResetPasswordPage.jsx';
 
 
-
-
-// // ResetPasswordRoute to validate the token
-// const ResetPasswordRoute = ({ children }) => {
-    
-//     const { token } = useParams(); // Get the token from the URL parameters
-
-//     // Function to validate the token
-//     const isValidToken = (token) => {
-//         // Implement your actual validation logic here (API request, etc.)
-//         return !!token; // Simplified check (token should exist)
-//     };
-
-//     // Check if the token is valid; if not, navigate to the reset-password page or show an error
-//     if (!isValidToken(token)) {
-//         return <Navigate to="/forgot-password" replace />; // Redirect to a more appropriate page
-//     }
-
-//     return children; // Render the children if the token is valid
-// };
-
 const App = () => {
+    
     const { checkAuth, isCheckingAuth, user, isAuthenticated, isForgotPasswordClicked } = useAuthStore();
 
     console.log(user, isAuthenticated)
     useEffect(() => {
+
         checkAuth(); // Check authentication status on app initialization
     }, []);
 

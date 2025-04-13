@@ -14,11 +14,11 @@ router.post("/reset-password/:code", resetPassword);
 router.get("/check-auth", verifyToken, checkAuth);
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] })); 
 
-  router.get(
-    "/google/callback",
-    passport.authenticate("google", { session: false, failureRedirect: "/login" }),
-    googleAuth
-  );
+router.get(
+"/google/callback",
+passport.authenticate("google", { session: false, failureRedirect: "/login" }),
+googleAuth
+);
 
 
   
