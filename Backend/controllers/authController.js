@@ -337,7 +337,7 @@ export const googleAuth = async (req, res) => {
         console.log(token)
 
         // Redirect to frontend with JWT token
-        res.redirect(`/dashboard`);
+        res.redirect(`https://authentication-system-frontend-taupe.vercel.app/dashboard`);
     } 
     
     catch(error){
