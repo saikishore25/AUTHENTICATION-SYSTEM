@@ -2,8 +2,7 @@ import express from "express"
 import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import path from 'path';
-import generateVerificationCode from path.resolve(__dirname, '../utils/generateVerificationCode.js');
+import generateVerificationCode from "../utils/generateVerificationCode.js";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
 import { sendVerificationEmail, sendWelcomeEmail,sendPasswordResetEmail , sendResetSuccessEmail } from "../nodemailer/nodemailerConfig.js";
 
@@ -32,8 +31,9 @@ export const signup = async(req, res)=>{
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const verificationCode = generateverificationCode();
+        const verificationCode = generateVerificationCode();
 
+        console.log(verificationCode)
         const user = new userModel({
 
             email: email,
@@ -245,8 +245,8 @@ export const resetPassword = async (req, res)=>{
         const hashedPassword = await bcrypt.hash(password, 10);
 
         user.password = hashedPassword;
-        user.resetPasswordToken = undefined;
-		user.resetPasswordExpiresAt = undefined;
+        user.resetPasswordCode = undefined;
+		user.resetPasswordCodeExpires = undefined;
 		await user.save();
 
 		await sendResetSuccessEmail(user.email);
