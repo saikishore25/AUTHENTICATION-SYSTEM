@@ -38,7 +38,7 @@ const SignUpPage = () => {
 
     const handleGoogleSignup = () => {
         
-        window.open(`${API_URL}/google`, "_self");
+        window.open(`${API_URL}/api/auth/google`, "_self");
 
     };
 

@@ -17,14 +17,20 @@ const PORT = process.env.PORT || 4001;
 
 connectDB();
 
-app.use(cors({origin: [`https://authentication-system-frontend-taupe.vercel.app`, `http://localhost:5173`], credentials: true}))
+app.use(cors({origin: [`https://authentication-system-frontend-taupe.vercel.app`],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowing all methods
+    allowedHeaders: ["Content-Type", "Authorization"], credentials: true}))
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false 
+    saveUninitialized: false ,
+    cookie: {
+        sameSite: "none", // Allow cross-site cookies
+        secure: true // Only send cookies over HTTPS
+    }
 }));
 
 app.use(passport.initialize());
