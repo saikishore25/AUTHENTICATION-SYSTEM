@@ -15,7 +15,7 @@ passport.use(
             callbackURL: `https://authentication-system-frontend-taupe.vercel.app/api/auth/google/callback`,
             scope: ["profile", "email"],
         },
-        async (accessToken, refreshToken, profile, done) => {
+        async (accessToken, refreshToken, profile, done) => {   
             
             try{
                 let user = await userModel.findOne({ email: profile.emails[0].value });
