@@ -20,6 +20,7 @@ passport.use(
               let user = await userModel.findOne({ email: profile.emails[0].value });
           
               if (user) {
+                
                 console.log("✅ Existing Google user logging in:", user.email);
                 return done(null, user);
               }
