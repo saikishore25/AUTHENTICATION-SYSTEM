@@ -21,7 +21,7 @@ const LoginPage = () => {
 		try{
 
 			await login(email, password);
-			navigate("https://authentication-system-frontend-taupe.vercel.app/dashboard")
+			navigate("/dashboard")
 
 		}
 		catch(error){

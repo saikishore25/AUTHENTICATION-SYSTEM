@@ -23,7 +23,7 @@ const SignUpPage = () => {
         try{
 
             await signup(email, password, name);
-            navigate("https://authentication-system-frontend-taupe.vercel.app/verify-email");
+            navigate("/verify-email");
 
 
         }
