@@ -207,7 +207,7 @@ export const forgotPassword = async(req, res) => {
 
         await user.save();
 
-        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetCode}`);
+        await sendPasswordResetEmail(user.email, `https://authentication-system-frontend-taupe.vercel.app/reset-password/${resetCode}`);
 
         res.status(200).json({ success: true, message: "Password reset link sent to your email" });
 

@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 4001;
 
 connectDB();
 
-app.use(cors({origin: `https://authentication-system-frontend-taupe.vercel.app`, credentials: true}))
+app.use(cors({origin: [`https://authentication-system-frontend-taupe.vercel.app`, `http://localhost:5173`], credentials: true}))
 app.use(express.json());
 app.use(cookieParser());
 
