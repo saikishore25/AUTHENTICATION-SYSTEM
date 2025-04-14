@@ -28,7 +28,7 @@ export const useAuthStore = create(
                 set({ isLoading: true, error: null });
                 try{
                     
-                    const response = await axios.post(`${get().API_URL}/signup`, { email, password, name });
+                    const response = await axios.post(`${get().API_URL}/api/auth/signup`, { email, password, name });
                     if(response.data.success){
 
                         set({ user: response.data.user, isAuthenticated: true, isLoading: false });
@@ -48,7 +48,7 @@ export const useAuthStore = create(
 
                 try{
 
-                    const response = await axios.post(`${get().API_URL}/login`, { email, password });
+                    const response = await axios.post(`${get().API_URL}/api/auth/login`, { email, password });
                     if(response.data.success){
 
                         set({ isAuthenticated: true, user: response.data.user, error: null, isLoading: false });
@@ -68,7 +68,7 @@ export const useAuthStore = create(
 
                 try{
 
-                    const response = await axios.post(`${get().API_URL}/logout`);
+                    const response = await axios.post(`${get().API_URL}/api/auth/logout`);
                     if(response.data.success){
 
                         set({ user: null, isAuthenticated: false, error: null, isLoading: false });
@@ -89,7 +89,7 @@ export const useAuthStore = create(
                 set({ isLoading: true, error: null });
                 try{
 
-                    const response = await axios.post(`${get().API_URL}/verify-email`, { code });
+                    const response = await axios.post(`${get().API_URL}/api/auth/verify-email`, { code });
                     set({ user: response.data.user, isAuthenticated: true, isLoading: false });
                     return response.data;
                 } 
@@ -107,7 +107,7 @@ export const useAuthStore = create(
             
                 try {
                     // Fetch user data from the backend
-                    const response = await axios.get(`${get().API_URL}/check-auth`, {
+                    const response = await axios.get(`${get().API_URL}/api/auth/check-auth`, {
                         withCredentials: true, // ✅ Ensures cookies are sent with the request
                     });
             
@@ -132,7 +132,7 @@ export const useAuthStore = create(
                 set({ isLoading: true, error: null });
                     
                 try{
-                    const response = await axios.post(`${get().API_URL}/forgot-password`, { email });
+                    const response = await axios.post(`${get().API_URL}/api/auth/forgot-password`, { email });
                     set({ message: response.data.message, isLoading: false });
                     } 
                 
@@ -150,7 +150,7 @@ export const useAuthStore = create(
             resetPassword: async (token, password) => {
                 set({ isLoading: true, error: null });
                 try {
-                const response = await axios.post(`${get().API_URL}/reset-password/${token}`, { password });
+                const response = await axios.post(`${get().API_URL}/api/auth/reset-password/${token}`, { password });
                 set({ message: response.data.message, isLoading: false });
                 } catch (error) {
                 set({
